@@ -1,23 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Compound {
-  final double amount;
+  //final double amount;
   final bool isPaid;
   final String carId;
+  final String carBrand;
   final DateTime dateIssued;
   final DateTime? datePaid;
   final String officerId;
   final String locationId;
   final String locationName;
   final String invoiceNum;
+
   final DocumentSnapshot? snapshot;
   final DocumentReference? reference;
   final String? documentID;
 
   Compound({
-    required this.amount,
+    //required this.amount,
     required this.isPaid,
     required this.carId,
+    required this.carBrand,
     required this.dateIssued,
     required this.officerId,
     required this.locationId,
@@ -34,9 +37,10 @@ class Compound {
     dynamic map = snapshot.data();
 
     return Compound(
-      amount: map['amount'].toDouble(),
+      //amount: map['amount'].toDouble(),
       isPaid: map['isPaid'],
       carId: map['carId'],
+      carBrand: map['carBrand'],
       dateIssued: map['dateIssued']?.toDate(),
       officerId: map['officerId'],
       locationId: map['locationId'],
@@ -53,9 +57,10 @@ class Compound {
     //if (map == null) return null;
 
     return Compound(
-      amount: map['amount'],
+      //amount: map['amount'],
       isPaid: map['isPaid'],
       carId: map['carId'],
+      carBrand: map['carBrand'],
       dateIssued: map['dateIssued']?.toDate(),
       officerId: map['officerId'],
       locationId: map['locationId'],
@@ -66,9 +71,10 @@ class Compound {
   }
 
   Map<String, dynamic> toMap() => {
-        'amount': amount,
+        //'amount': amount,
         'isPaid': isPaid,
         'carId': carId,
+        'carBrand': carBrand,
         'dateIssued': dateIssued,
         'officerId': officerId,
         'datePaid': datePaid,
@@ -81,6 +87,7 @@ class Compound {
     required double amount,
     required bool isPaid,
     required String carId,
+    required String carBrand,
     required DateTime dateIssued,
     DateTime? datePaid,
     required String officerId,
@@ -89,9 +96,10 @@ class Compound {
     required String invoiceNum,
   }) {
     return Compound(
-      amount: this.amount,
+      //amount: this.amount,
       isPaid: this.isPaid,
       carId: this.carId,
+      carBrand: this.carBrand,
       dateIssued: this.dateIssued,
       datePaid: this.datePaid,
       officerId: this.officerId,
@@ -103,7 +111,7 @@ class Compound {
 
   @override
   String toString() {
-    return '${amount.toString()}, ${isPaid.toString()}, ${carId.toString()}, ${dateIssued.toString()},${officerId.toString()}, ${datePaid.toString()}, ';
+    return '{amount.toString()}, ${isPaid.toString()}, ${carId.toString()}, ${dateIssued.toString()},${officerId.toString()}, ${datePaid.toString()}, ';
   }
 
   @override

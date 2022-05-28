@@ -1,6 +1,7 @@
 import 'package:e_coupoun_admin/constant.dart';
 import 'package:e_coupoun_admin/model/auth_id.dart';
 import 'package:e_coupoun_admin/model/compound.dart';
+import 'package:e_coupoun_admin/model/location_parking.dart';
 import 'package:e_coupoun_admin/services/firebase_firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,7 @@ class CompoundPage extends StatefulWidget {
 
 class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
   TextEditingController carPlateNumcon = TextEditingController();
-  TextEditingController carTypecon = TextEditingController();
+  TextEditingController carBrandcon = TextEditingController();
   TextEditingController carOffenceTypecon = TextEditingController();
   TextEditingController carDateCompoundcon = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -26,10 +27,11 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
 
   List<String> label = [
     'Car Plate Number',
-    'Car Type',
+    'Car Brand',
     "Type Of Offence",
     "Date",
   ];
+  LocationParking? locationParking;
 
   DateTime _date = DateTime.now();
 
@@ -82,7 +84,7 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
   Widget build(BuildContext context) {
     final officer = Provider.of<AuthId>(context);
     return Scaffold(
-      backgroundColor: Color(0xffE1F9E0),
+      backgroundColor: const Color(0xffE1F9E0),
       appBar: compoundAppbarDesign(),
       body: SingleChildScrollView(
         child: Padding(
@@ -97,8 +99,81 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                   0,
                 ),
                 gaph(h: 25),
+                StreamBuilder(
+                    stream: FirestoreDb().streamLocationParking(),
+                    builder: (_, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        List<LocationParking> locations = snapshot.data;
+                        return SizedBox(
+                          height: 80.h,
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            //height: 60.h,
+                            // padding: const EdgeInsets.symmetric(horizontal: 20),
+                            // decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(8.r),
+                            //     color: Colors.white,
+                            //     boxShadow: [
+                            //       BoxShadow(
+                            //           offset: const Offset(0, 3),
+                            //           blurRadius: 3,
+                            //           color: Colors.black.withOpacity(0.2))
+                            //     ]),
+                            child: Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: DropdownButton<LocationParking>(
+                                    //isDense: true,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    isExpanded: true,
+                                    hint: Text(
+                                      "Choose Location",
+                                      style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontSize: 18,
+                                        color: Colors.grey.shade400,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    value: locationParking,
+                                    items: locations
+                                        .map(
+                                          (e) =>
+                                              DropdownMenuItem<LocationParking>(
+                                            value: e,
+                                            child: Text(
+                                              e.locationName,
+                                              style: const TextStyle(
+                                                fontFamily: 'Roboto',
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged:
+                                        (LocationParking? locationParkingVal) {
+                                      setState(() {
+                                        locationParking = locationParkingVal;
+                                      });
+                                    }),
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const CircularProgressIndicator.adaptive();
+                      }
+                    }),
+                gaph(h: 25),
                 textFieldDesign(
-                  carTypecon,
+                  carBrandcon,
                   1,
                 ),
                 gaph(h: 25),
@@ -107,11 +182,11 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                   2,
                 ),
                 gaph(h: 25),
-                textFieldDesign(
-                  carDateCompoundcon,
-                  3,
-                ),
-                SizedBox(height: 120.h),
+                // textFieldDesign(
+                //   carDateCompoundcon,
+                //   3,
+                // ),
+                //SizedBox(height: 120.h),
                 Row(
                   children: [
                     Expanded(
@@ -150,12 +225,19 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                                 'Plate Number cannot be empty',
                                 'Car Plate Number',
                               );
-                            } else if (!isCarTypeValid(carTypecon.text)) {
+                            } else if (locationParking == null) {
                               //print('phone');
                               createAlertDialog(
                                 context,
-                                'Car type cannot be empty',
-                                'Car Type',
+                                'Parking Location cannot be empty',
+                                'Location Parking',
+                              );
+                            } else if (!isCarBrandValid(carBrandcon.text)) {
+                              //print('Ic num');
+                              createAlertDialog(
+                                context,
+                                'Car Brand cannot be empty',
+                                'Car Brand',
                               );
                             } else if (!isTypeOfOffenceValid(
                                 carOffenceTypecon.text)) {
@@ -165,32 +247,38 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                                 'Type of offence cannot be empty',
                                 'Type Of Offence',
                               );
-                            } else if (!isDateCompoundValid(
-                                carDateCompoundcon.text)) {
-                              //print('date');
-                              createAlertDialog(
-                                context,
-                                'Date Compound cannot be empty',
-                                'Compound Date',
-                              );
-                            } else {
+                            }
+                            //  else if (!isDateCompoundValid(
+                            //     carDateCompoundcon.text)) {
+                            //   //print('date');
+                            //   createAlertDialog(
+                            //     context,
+                            //     'Date Compound cannot be empty',
+                            //     'Compound Date',
+                            //   );
+                            // }
+                            else {
                               //TODO database
                               String invoiceNum = DateFormat('yyyyMMddHms')
                                   .format(DateTime.now());
-
+                              print(locationParking!.locationName);
                               Compound compound = Compound(
-                                  amount: 2000,
+                                  //amount: 2000,
                                   isPaid: false,
-                                  carId: carPlateNumcon.text,
+                                  carId: carPlateNumcon.text.toUpperCase(),
+                                  carBrand: carBrandcon.text,
                                   dateIssued: DateTime.now(),
                                   officerId: officer.uid,
-                                  locationId: 'locationId',
-                                  locationName: 'locationName',
+                                  locationId: locationParking?.documentID ??
+                                      'error getting location id', //'locationId',
+                                  locationName: locationParking?.locationName ??
+                                      'error getting location name', //'locationName',
                                   invoiceNum: invoiceNum);
                               print(invoiceNum);
                               //FirestoreDb(uid: officer.uid).updateCompoundDataCollection(compound)
                               createAlertDialog(
-                                  context, 'Generate Compound?', 'Submit');
+                                  context, 'Generate Compound?', 'Submit',
+                                  compound: compound);
                             }
                           },
                         ),
@@ -303,8 +391,9 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
     );
   }
 
-  createAlertDialog(BuildContext context, String inputData, String title) {
-    Size size = MediaQuery.of(context).size;
+  createAlertDialog(BuildContext context, String inputData, String title,
+      {Compound? compound, String? uid}) {
+    //Size size = MediaQuery.of(context).size;
 
     return showDialog(
         context: context,
@@ -376,7 +465,13 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                   if (title == 'Clear') {
                     carDateCompoundcon.text = '';
                     Navigator.of(context).pop();
-                  } else if (title == 'Save') {
+                  } else if (title == 'Submit') {
+                    FirestoreDb().updateCompoundDataCollection(compound!);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Compound Generate Successfully'),
+                      ),
+                    );
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   } else {
                     Navigator.of(context).pop();
@@ -397,7 +492,7 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
   }
 
   Widget textFieldDesign(TextEditingController controller, int index) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 80.h,
       child: Card(
@@ -413,7 +508,7 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
               child: TextFormField(
                 controller: controller,
                 enabled: label[index] != 'Date' ? true : false,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 18,
                   color: Colors.black,
@@ -423,15 +518,15 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
                   labelText: label[index],
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     fontFamily: 'Roboto',
-                    color: const Color(0xffbebebe),
+                    color: Color(0xffbebebe),
                     fontWeight: FontWeight.w700,
                   ),
-                  enabledBorder: UnderlineInputBorder(
+                  enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xffC8C8C8)),
                   ),
-                  disabledBorder: UnderlineInputBorder(
+                  disabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xffC8C8C8)),
                   ),
                 ),
@@ -456,7 +551,7 @@ mixin InputValidationMixin {
   bool isCarPlateNumValid(String? carPlateNum) =>
       carPlateNum != null ? carPlateNum.isNotEmpty : false;
 
-  bool isCarTypeValid(String? carType) =>
+  bool isCarBrandValid(String? carType) =>
       carType != null ? carType.isNotEmpty : false;
 
   bool isUserNameValid(String? username) =>

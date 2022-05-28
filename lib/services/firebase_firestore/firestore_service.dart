@@ -59,9 +59,18 @@ class FirestoreDb {
     }).toList();
   }
 
-  Stream<List<Compound>> streamCarCompoundListById(String carPlateNum) {
+  Stream<List<Compound>> streamCarCompoundListByCarPlateNum(
+      String carPlateNum) {
     return compoundCollection
         .where('carId', isEqualTo: carPlateNum)
+        .orderBy('dateIssued', descending: true)
+        .snapshots()
+        .map(_compoundListFromSnapshot);
+  }
+
+  Stream<List<Compound>> streamCarCompoundListByOfficerId() {
+    return compoundCollection
+        .where('officerId', isEqualTo: uid)
         .orderBy('dateIssued', descending: true)
         .snapshots()
         .map(_compoundListFromSnapshot);
@@ -73,6 +82,10 @@ class FirestoreDb {
         .orderBy('carPlateNum', descending: true)
         .snapshots()
         .map(_carListFromSnapshot);
+  }
+
+  Stream<List<LocationParking>> streamLocationParking() {
+    return locationParkCollection.snapshots().map(_locationListFromSnapshot);
   }
 
   Stream<Car?> getCarById(String id) {
