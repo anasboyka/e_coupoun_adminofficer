@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                                 padding:
                                     EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0),
                                 child: Text(
-                                  'Car List',
+                                  'List Car Currently Parking',
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
                                     fontSize: 16.sp,
@@ -281,13 +281,14 @@ class _HomePageState extends State<HomePage> {
 
   Widget listCurrentCarParkingBuilder(String query) {
     //print(query);
-    if (query.isNotEmpty) {
-      return StreamBuilder<List<Car>>(
-        stream: FirestoreDb().streamCurrentParkingCar(),
-        builder: (_, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            List<Car> carList = snapshot.data;
+    //if (query.isNotEmpty) {
+    return StreamBuilder<List<Car>>(
+      stream: FirestoreDb().streamCurrentParkingCar(),
+      builder: (_, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          List<Car> carList = snapshot.data;
 
+          if (query.isNotEmpty) {
             List<Car> carsTemp = [];
             for (var i = 0; i < carList.length; i++) {
               if (carList[i]
@@ -298,99 +299,100 @@ class _HomePageState extends State<HomePage> {
               }
             }
             carList = carsTemp;
+          }
 
-            if (carList.isNotEmpty) {
-              return ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  //print(locationParkings.length);
-                  return ListTile(
-                    leading: SizedBox(
-                      height: 36.h,
-                      width: 36.w,
-                      child: Icon(
-                        Icons.directions_car,
-                        size: 36.w,
-                        color: Color(0xff17B95B),
-                      ),
+          if (carList.isNotEmpty) {
+            return ListView.separated(
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                //print(locationParkings.length);
+                return ListTile(
+                  leading: SizedBox(
+                    height: 36.h,
+                    width: 36.w,
+                    child: Icon(
+                      Icons.directions_car,
+                      size: 36.w,
+                      color: Color(0xff17B95B),
                     ),
-                    title: Text(
-                      carList[index].carPlateNum, //?? '',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14.sp,
-                        color: const Color(0xff000000),
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    subtitle: Text(
-                      carList[index].carBrand, //?? '',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 12.sp,
-                        color: const Color(0xffbebebe),
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    dense: true,
-                    //horizontalTitleGap: 0,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Divider(
-                      color: Color(0xffC8C8C8),
-                      thickness: 1,
-                      height: 0,
-                      endIndent: 0,
-                      indent: 0,
-                    ),
-                  );
-                },
-                itemCount: carList.length,
-                shrinkWrap: true,
-              );
-            } else {
-              return ListTile(
-                title: Text(
-                  'Car not found',
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 16.sp,
-                    color: const Color(0xff707070),
-                    fontWeight: FontWeight.w700,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              );
-            }
+                  title: Text(
+                    carList[index].carPlateNum, //?? '',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 14.sp,
+                      color: const Color(0xff000000),
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  subtitle: Text(
+                    carList[index].carBrand, //?? '',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 12.sp,
+                      color: const Color(0xffbebebe),
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                  dense: true,
+                  //horizontalTitleGap: 0,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Divider(
+                    color: Color(0xffC8C8C8),
+                    thickness: 1,
+                    height: 0,
+                    endIndent: 0,
+                    indent: 0,
+                  ),
+                );
+              },
+              itemCount: carList.length,
+              shrinkWrap: true,
+            );
           } else {
-            print('loading');
-            return Padding(
-              padding: EdgeInsets.only(top: 20.h),
-              child: const Center(child: CircularProgressIndicator.adaptive()),
+            return ListTile(
+              title: Text(
+                'No Car Found',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 16.sp,
+                  color: const Color(0xff707070),
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.left,
+              ),
             );
           }
-        },
-      );
-    } else {
-      return ListTile(
-        title: Text(
-          'Please input car plate number',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 16.sp,
-            color: const Color(0xff707070),
-            fontWeight: FontWeight.w700,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
+        } else {
+          print('loading');
+          return Padding(
+            padding: EdgeInsets.only(top: 20.h),
+            child: const Center(child: CircularProgressIndicator.adaptive()),
+          );
+        }
+      },
+    );
+    // } else {
+    //   return ListTile(
+    //     title: Text(
+    //       'Please input car plate number',
+    //       style: TextStyle(
+    //         fontFamily: 'Roboto',
+    //         fontSize: 16.sp,
+    //         color: const Color(0xff707070),
+    //         fontWeight: FontWeight.w700,
+    //       ),
+    //       textAlign: TextAlign.center,
+    //     ),
+    //   );
+    // }
   }
 
   Column menuDesign(String title, String imagePath, String navigationPath) {
