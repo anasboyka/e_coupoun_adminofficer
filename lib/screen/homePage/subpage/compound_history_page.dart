@@ -35,7 +35,7 @@ class _CompoundHistoryPageState extends State<CompoundHistoryPage> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding:
-                            EdgeInsets.symmetric(vertical: 20.h, horizontal: 0),
+                            EdgeInsets.symmetric(vertical: 10.h, horizontal: 0),
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
