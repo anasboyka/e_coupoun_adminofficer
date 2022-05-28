@@ -26,167 +26,172 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: kbgColor,
       appBar: appBarDesign(context),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height -
-              appBarDesign(context).preferredSize.height -
-              MediaQuery.of(context).padding.top,
-          width: double.infinity,
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
-                  child: Column(
-                    children: [
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.r),
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height -
+            appBarDesign(context).preferredSize.height -
+            MediaQuery.of(context).padding.top,
+        width: double.infinity,
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
+                child: Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      elevation: 2,
+                      child: TextFormField(
+                        onChanged: (value) => setState(() => query = value),
+                        controller: searchcon,
+                        textAlignVertical: TextAlignVertical.center,
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
                         ),
-                        elevation: 2,
-                        child: TextFormField(
-                          onChanged: (value) => setState(() => query = value),
-                          controller: searchcon,
-                          textAlignVertical: TextAlignVertical.center,
-                          style: TextStyle(
+                        decoration: InputDecoration(
+                          hintText: "Search Car Plate Number",
+                          hintStyle: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 18,
-                            color: Colors.black,
+                            color: const Color(0xffbebebe),
                             fontWeight: FontWeight.w700,
                           ),
-                          decoration: InputDecoration(
-                            hintText: "Search Car Plate Number",
-                            hintStyle: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 18,
-                              color: const Color(0xffbebebe),
-                              fontWeight: FontWeight.w700,
-                            ),
-                            prefixIcon: Icon(Icons.search),
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
-                              onPressed: () {
-                                setState(() {
-                                  searchcon.clear();
-                                  query = '';
-                                });
-                              },
-                            ),
-                            border: InputBorder.none,
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 20.h, horizontal: 10.w),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide.none,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide.none,
-                            ),
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              setState(() {
+                                searchcon.clear();
+                                query = '';
+                              });
+                            },
+                          ),
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20.h, horizontal: 10.w),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
-                      SizedBox(height: 30.h),
-                      Container(
-                        width: double.infinity,
-                        child: Card(
-                          elevation: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0),
-                                child: Text(
-                                  'List Car Currently Parking',
-                                  style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 16.sp,
-                                    color: const Color(0xff707070),
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 30.h),
+                    SizedBox(
+                      //height: 400,
+                      width: double.infinity,
+                      child: Card(
+                        elevation: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0),
+                              child: Text(
+                                'List Car Currently Parking',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 16.sp,
+                                  color: const Color(0xff707070),
+                                  fontWeight: FontWeight.w700,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 14.h),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
-                                child: Divider(
-                                  color: Color(0xffC8C8C8),
-                                  thickness: 1,
-                                  height: 0,
-                                  endIndent: 0,
-                                  indent: 0,
-                                ),
+                            ),
+                            SizedBox(height: 14.h),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 0),
+                              child: Divider(
+                                color: Color(0xffC8C8C8),
+                                thickness: 1,
+                                height: 0,
+                                endIndent: 0,
+                                indent: 0,
                               ),
-                              // SizedBox(height: 25.h),
-                              listCurrentCarParkingBuilder(query),
+                            ),
+                            // SizedBox(height: 25.h),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 340.h,
+                              child: Scrollbar(
+                                child: SingleChildScrollView(
+                                    child: listCurrentCarParkingBuilder(query)),
+                              ),
+                            ),
+                            gaph(h: 25)
 
-                              // ListTile(
-                              //   title: Text(
-                              //     location[0]['location'] ?? '',
-                              //     style: TextStyle(
-                              //       fontFamily: 'Roboto',
-                              //       fontSize: 18,
-                              //       color: const Color(0xff000000),
-                              //       fontWeight: FontWeight.w700,
-                              //     ),
-                              //     textAlign: TextAlign.left,
-                              //   ),
-                              //   subtitle: Text(
-                              //     location[0]['subLocation'] ?? '',
-                              //     style: TextStyle(
-                              //       fontFamily: 'Roboto',
-                              //       fontSize: 15,
-                              //       color: const Color(0xffbebebe),
-                              //       fontWeight: FontWeight.w700,
-                              //     ),
-                              //     textAlign: TextAlign.left,
-                              //   ),
-                              //   dense: true,
-                              //   //horizontalTitleGap: 0,
-                              //   contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                              //   onTap: () {},
-                              // )
-                            ],
-                          ),
+                            // ListTile(
+                            //   title: Text(
+                            //     location[0]['location'] ?? '',
+                            //     style: TextStyle(
+                            //       fontFamily: 'Roboto',
+                            //       fontSize: 18,
+                            //       color: const Color(0xff000000),
+                            //       fontWeight: FontWeight.w700,
+                            //     ),
+                            //     textAlign: TextAlign.left,
+                            //   ),
+                            //   subtitle: Text(
+                            //     location[0]['subLocation'] ?? '',
+                            //     style: TextStyle(
+                            //       fontFamily: 'Roboto',
+                            //       fontSize: 15,
+                            //       color: const Color(0xffbebebe),
+                            //       fontWeight: FontWeight.w700,
+                            //     ),
+                            //     textAlign: TextAlign.left,
+                            //   ),
+                            //   dense: true,
+                            //   //horizontalTitleGap: 0,
+                            //   contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                            //   onTap: () {},
+                            // )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: MaterialButton(
-                  minWidth: double.infinity,
-                  height: 70,
-                  color: Color(0xff16AA10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Text(
-                    'Generate Compound',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 25.sp,
-                      color: const Color(0xffffffff),
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/compound', arguments: {
-                      'carPlateNum': searchcon.text.toUpperCase().trim()
-                    });
-                  },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: MaterialButton(
+                minWidth: double.infinity,
+                height: 70,
+                color: Color(0xff16AA10),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
-              )
-            ],
-          ),
+                child: Text(
+                  'Generate Compound',
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    fontSize: 25.sp,
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/compound', arguments: {
+                    'carPlateNum': searchcon.text.toUpperCase().trim()
+                  });
+                },
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -303,7 +308,7 @@ class _HomePageState extends State<HomePage> {
 
           if (carList.isNotEmpty) {
             return ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 //print(locationParkings.length);
                 return ListTile(
