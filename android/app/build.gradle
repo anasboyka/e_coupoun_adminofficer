@@ -60,6 +60,13 @@ android {
             minifyEnabled false
             shrinkResources false
         }
+
+        debug{
+            signingConfig signingConfigs.debug
+            //signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+        }
        
     }
 }
