@@ -100,7 +100,7 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                 ),
                 gaph(h: 25),
                 StreamBuilder(
-                    stream: FirestoreDb().streamLocationParking(),
+                    stream: FirestoreDb().locations,
                     builder: (_, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         List<LocationParking> locations = snapshot.data;

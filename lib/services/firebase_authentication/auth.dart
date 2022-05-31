@@ -11,7 +11,9 @@ class AuthService {
   }
 
   Stream<AuthId> get user {
-    return _auth.authStateChanges().map(_userFromFirebaseUser);
+    return _auth
+        .authStateChanges()
+        .map((event) => _userFromFirebaseUser(event));
   }
 
   Future registerOfficerWithEmailAndPasword(

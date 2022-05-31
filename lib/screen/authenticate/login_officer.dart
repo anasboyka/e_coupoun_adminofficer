@@ -1,7 +1,9 @@
 import 'package:e_coupoun_admin/constant.dart';
+import 'package:e_coupoun_admin/model/account.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class LoginPageOfficer extends StatefulWidget {
   const LoginPageOfficer({Key? key}) : super(key: key);
@@ -108,11 +110,15 @@ class _LoginPageOfficerState extends State<LoginPageOfficer> {
                           dynamic result = await AuthService()
                               .signInOfficerWithEmailAndPassword(
                                   loginEmailcon.text, loginpasscon.text);
+
                           //setState(() => loading = false);
                           if (result == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('No User found')));
                             setState(() => loading = false);
+                          } else {
+                            Provider.of<Account>(context, listen: false)
+                                .setAdmin(false);
                           }
                         }
                       }

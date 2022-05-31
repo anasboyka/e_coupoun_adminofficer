@@ -2,6 +2,9 @@ import 'package:e_coupoun_admin/constant.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../../model/account.dart';
 
 class LoginPageAdmin extends StatefulWidget {
   const LoginPageAdmin({Key? key}) : super(key: key);
@@ -29,99 +32,106 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(50.w, 18.h, 50.w, 44.h),
-              child: Card(
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(28.w, 38.h, 28.w, 52.h),
-                  child: LayoutBuilder(builder: (context, constraint) {
-                    return Form(
-                      key: _formkey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          inputDesign(constraint, 'Email', loginEmailcon,
-                              'assets/icons/adminIcon.png'),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 38.h),
-                            child: Divider(
-                              color: kgreycolor1,
-                              thickness: 1.5,
-                              height: 0,
-                            ),
-                          ),
-                          inputDesign(constraint, 'Password', loginpasscon,
-                              'assets/icons/passwordIcon.png'),
-                        ],
-                      ),
-                    );
-                  }),
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: InkWell(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 60.h,
-                    width: 210.w, //0.5 * size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      gradient: LinearGradient(
-                        colors: [
-                          Color(0xff54A059),
-                          Color(0xff40B74B),
-                          Color(0xff2CD23C),
-                          Color(0xff1EE332),
-                          Color(0xff0BFD24),
-                        ],
-                      ),
-                    ),
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 29,
-                        color: const Color(0xffffffff),
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(50.w, 18.h, 50.w, 44.h),
+                child: Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  onTap: () async {
-                    print("login");
-                    if (_formkey.currentState!.validate()) {
-                      if (loginFormValidation()) {
-                        setState(() => loading = true);
-                        dynamic result = await AuthService()
-                            .signInOfficerWithEmailAndPassword(
-                                loginEmailcon.text, loginpasscon.text);
-                        //setState(() => loading = false);
-                        if (result == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('No User found')));
-                          setState(() => loading = false);
-                        }
-                        //Navigator.of(context).pushReplacementNamed('/home');
-                      }
-                    }
-                  },
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(28.w, 38.h, 28.w, 52.h),
+                    child: LayoutBuilder(builder: (context, constraint) {
+                      return Form(
+                        key: _formkey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            inputDesign(constraint, 'Email', loginEmailcon,
+                                'assets/icons/adminIcon.png'),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 38.h),
+                              child: Divider(
+                                color: kgreycolor1,
+                                thickness: 1.5,
+                                height: 0,
+                              ),
+                            ),
+                            inputDesign(constraint, 'Password', loginpasscon,
+                                'assets/icons/passwordIcon.png'),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: InkWell(
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 60.h,
+                      width: 210.w, //0.5 * size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xff54A059),
+                            Color(0xff40B74B),
+                            Color(0xff2CD23C),
+                            Color(0xff1EE332),
+                            Color(0xff0BFD24),
+                          ],
+                        ),
+                      ),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 29,
+                          color: const Color(0xffffffff),
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    onTap: () async {
+                      print("login");
+                      if (_formkey.currentState!.validate()) {
+                        if (loginFormValidation()) {
+                          setState(() => loading = true);
+                          dynamic result = await AuthService()
+                              .signInAdminWithEmailAndPassword(
+                                  loginEmailcon.text, loginpasscon.text);
+                          //setState(() => loading = false);
+                          if (result == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('No Admin found')));
+                            setState(() => loading = false);
+                          } else {
+                            Provider.of<Account>(context, listen: false)
+                                .setAdmin(true);
+                          }
+
+                          //Navigator.of(context).pushReplacementNamed('/home');
+                        }
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

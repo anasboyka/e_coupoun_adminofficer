@@ -1,4 +1,5 @@
 import 'package:e_coupoun_admin/constant.dart';
+import 'package:e_coupoun_admin/model/account.dart';
 import 'package:e_coupoun_admin/model/auth_id.dart';
 import 'package:e_coupoun_admin/route_generator.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
@@ -20,6 +21,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<Account>(
+          create: (context) => Account(),
+          lazy: false,
+        ),
         StreamProvider<AuthId?>.value(
             catchError: (_, __) => null,
             value: AuthService().user,

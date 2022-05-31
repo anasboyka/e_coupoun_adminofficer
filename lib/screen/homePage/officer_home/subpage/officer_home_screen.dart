@@ -1,20 +1,22 @@
 import 'dart:io';
 
 import 'package:e_coupoun_admin/constant.dart';
+import 'package:e_coupoun_admin/model/account.dart';
 import 'package:e_coupoun_admin/model/car.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
 import 'package:e_coupoun_admin/services/firebase_firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class OfficerHomeScreen extends StatefulWidget {
+  const OfficerHomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _OfficerHomeScreenState createState() => _OfficerHomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
   final AuthService _auth = AuthService();
   TextEditingController searchcon = TextEditingController();
 
@@ -23,12 +25,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<Account>(context).isAdmin);
     return Scaffold(
       backgroundColor: kbgColor,
-      appBar: appBarDesign(context),
+      appBar: appBarDesignOfficerHome(context),
       body: SizedBox(
         height: MediaQuery.of(context).size.height -
-            appBarDesign(context).preferredSize.height -
+            appBarDesignOfficerHome(context).preferredSize.height -
             MediaQuery.of(context).padding.top,
         width: double.infinity,
         child: Column(
@@ -210,7 +213,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AppBar appBarDesign(BuildContext context) {
+  AppBar appBarDesignOfficerHome(BuildContext context) {
     return AppBar(
       toolbarHeight: Platform.isAndroid
           ? 190 - MediaQuery.of(context).padding.top
