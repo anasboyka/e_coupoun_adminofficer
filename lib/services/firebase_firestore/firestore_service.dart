@@ -151,6 +151,15 @@ class FirestoreDb {
         .map(_carListFromSnapshot);
   }
 
+  Stream<List<Car>> streamCurrentParkingCarByLocationId(String locationId) {
+    return carCollection
+        .where('parkingStatus', isEqualTo: true)
+        .where('locationId', isEqualTo: locationId)
+        .orderBy('carPlateNum', descending: false)
+        .snapshots()
+        .map(_carListFromSnapshot);
+  }
+
   Stream<Car?> getCarById(String id) {
     return carCollection.doc(id).snapshots().map((doc) {
       return Car.fromFirestore(doc);

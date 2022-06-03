@@ -116,9 +116,6 @@ class _LoginPageOfficerState extends State<LoginPageOfficer> {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('No User found')));
                             setState(() => loading = false);
-                          } else {
-                            Provider.of<Account>(context, listen: false)
-                                .setAdmin(false);
                           }
                         }
                       }

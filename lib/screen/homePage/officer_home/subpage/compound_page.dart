@@ -263,17 +263,19 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
                                   .format(DateTime.now());
                               print(locationParking!.locationName);
                               Compound compound = Compound(
-                                  //amount: 2000,
-                                  isPaid: false,
-                                  carId: carPlateNumcon.text.toUpperCase(),
-                                  carBrand: carBrandcon.text,
-                                  dateIssued: DateTime.now(),
-                                  officerId: officer.uid,
-                                  locationId: locationParking?.documentID ??
-                                      'error getting location id', //'locationId',
-                                  locationName: locationParking?.locationName ??
-                                      'error getting location name', //'locationName',
-                                  invoiceNum: invoiceNum);
+                                amount: 2000,
+                                isPaid: false,
+                                carId: carPlateNumcon.text.toUpperCase(),
+                                carBrand: carBrandcon.text,
+                                dateIssued: DateTime.now(),
+                                officerId: officer.uid,
+                                locationId: locationParking?.documentID ??
+                                    'error getting location id', //'locationId',
+                                locationName: locationParking?.locationName ??
+                                    'error getting location name', //'locationName',
+                                invoiceNum: invoiceNum,
+                                offenceType: carOffenceTypecon.text,
+                              );
                               print(invoiceNum);
                               //FirestoreDb(uid: officer.uid).updateCompoundDataCollection(compound)
                               createAlertDialog(

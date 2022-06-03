@@ -82,30 +82,30 @@ class _DriverListState extends State<DriverList> {
                                             trailing: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                SizedBox(
-                                                  width: 30.w,
-                                                  height: 30.h,
-                                                  child: Material(
-                                                    shape: const CircleBorder(),
-                                                    child: IconButton(
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      iconSize: 30.w,
-                                                      onPressed: () {
-                                                        //todo
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.edit,
-                                                        color:
-                                                            Color(0xff17B95B),
-                                                        size: 30,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                                // SizedBox(
+                                                //   width: 30.w,
+                                                //   height: 30.h,
+                                                //   child: Material(
+                                                //     shape: const CircleBorder(),
+                                                //     child: IconButton(
+                                                //       highlightColor:
+                                                //           Colors.transparent,
+                                                //       padding:
+                                                //           const EdgeInsets.all(
+                                                //               0),
+                                                //       iconSize: 30.w,
+                                                //       onPressed: () {
+                                                //         //todo
+                                                //       },
+                                                //       icon: Icon(
+                                                //         Icons.edit,
+                                                //         color:
+                                                //             Color(0xff17B95B),
+                                                //         size: 30,
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 SizedBox(width: 6.w),
                                                 SizedBox(
                                                   width: 30.w,
@@ -145,54 +145,54 @@ class _DriverListState extends State<DriverList> {
                           ),
                         ),
                         gaph(),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0, 1),
-                                  blurRadius: 1,
-                                )
-                              ]),
-                          child: Material(
-                            clipBehavior: Clip.hardEdge,
-                            color: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 12.w, vertical: 6.h),
-                              leading: Icon(
-                                Icons.add,
-                                size: 35.w,
-                                color: Color(0xff17B95B),
-                              ),
-                              horizontalTitleGap: 4.w,
-                              title: Text(
-                                'Register New Driver',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 16.sp,
-                                  color: const Color(0xff000000),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              onTap: () async {
-                                // Navigator.of(context).pushNamed('/registerinputcar', arguments: {
-                                //   "appbarTitle": "Register New Car",
-                                //   "driverInfo": widget.driverInfo
-                                // });
-                                print('tap');
-                              },
-                            ),
-                          ),
-                        ),
-                        gaph()
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10.r),
+                        //       color: Colors.white,
+                        //       boxShadow: const [
+                        //         BoxShadow(
+                        //           color: Colors.grey,
+                        //           offset: Offset(0, 1),
+                        //           blurRadius: 1,
+                        //         )
+                        //       ]),
+                        //   child: Material(
+                        //     clipBehavior: Clip.hardEdge,
+                        //     color: Colors.transparent,
+                        //     shadowColor: Colors.transparent,
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(10.r),
+                        //     ),
+                        //     child: ListTile(
+                        //       contentPadding: EdgeInsets.symmetric(
+                        //           horizontal: 12.w, vertical: 6.h),
+                        //       leading: Icon(
+                        //         Icons.add,
+                        //         size: 35.w,
+                        //         color: Color(0xff17B95B),
+                        //       ),
+                        //       horizontalTitleGap: 4.w,
+                        //       title: Text(
+                        //         'Register New Driver',
+                        //         style: TextStyle(
+                        //           fontFamily: 'Roboto',
+                        //           fontSize: 16.sp,
+                        //           color: const Color(0xff000000),
+                        //           fontWeight: FontWeight.w700,
+                        //         ),
+                        //         textAlign: TextAlign.left,
+                        //       ),
+                        //       onTap: () async {
+                        //         // Navigator.of(context).pushNamed('/registerinputcar', arguments: {
+                        //         //   "appbarTitle": "Register New Car",
+                        //         //   "driverInfo": widget.driverInfo
+                        //         // });
+                        //         print('tap');
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
+                        // gaph()
                       ],
                     );
                   } else {

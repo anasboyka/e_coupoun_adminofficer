@@ -1,50 +1,70 @@
-import 'dart:io';
-
 import 'package:e_coupoun_admin/constant.dart';
-import 'package:e_coupoun_admin/model/account.dart';
 import 'package:e_coupoun_admin/model/car.dart';
+import 'package:e_coupoun_admin/model/location_parking.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
 import 'package:e_coupoun_admin/services/firebase_firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
-class OfficerHomeScreen extends StatefulWidget {
-  const OfficerHomeScreen({Key? key}) : super(key: key);
+class LocationViewOfficerPage extends StatefulWidget {
+  LocationParking locationParking;
+  LocationViewOfficerPage({Key? key, required this.locationParking})
+      : super(key: key);
 
   @override
-  _OfficerHomeScreenState createState() => _OfficerHomeScreenState();
+  State<LocationViewOfficerPage> createState() =>
+      _LocationViewOfficerPageState();
 }
 
-class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
+class _LocationViewOfficerPageState extends State<LocationViewOfficerPage> {
   final AuthService _auth = AuthService();
   TextEditingController searchcon = TextEditingController();
 
-  String name = "Fatin Fariza";
+  //String name = "Fatin Fariza";
   String query = '';
-
   @override
   Widget build(BuildContext context) {
-    print(Provider.of<Account>(context).isAdmin);
     return Scaffold(
+      appBar: locationSelectionAppbarDesign(),
       backgroundColor: kbgColor,
-      appBar: appBarDesignOfficerHome(context),
       body: SizedBox(
         height: MediaQuery.of(context).size.height -
-            appBarDesignOfficerHome(context).preferredSize.height -
+            locationSelectionAppbarDesign().preferredSize.height -
             MediaQuery.of(context).padding.top,
         width: double.infinity,
         child: Column(
           children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: SingleChildScrollView(
                   physics: MediaQuery.of(context).viewInsets.bottom == 0
                       ? const NeverScrollableScrollPhysics()
                       : null,
                   child: Column(
                     children: [
+                      gaph(h: 11),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons/parkingIcon.png',
+                            height: 41,
+                          ),
+                          Text(
+                            widget.locationParking
+                                .locationName, //'Tapak Parking Jam Besar',
+                            style: const TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                              color: Color(0xff1e2022),
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            softWrap: false,
+                          )
+                        ],
+                      ),
+                      gaph(h: 12),
                       Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.r),
@@ -107,7 +127,7 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
                                 padding:
                                     EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0),
                                 child: Text(
-                                  'List Car Currently Parking',
+                                  'Car List',
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
                                     fontSize: 16.sp,
@@ -131,7 +151,7 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
                               // SizedBox(height: 25.h),
                               SizedBox(
                                 width: double.infinity,
-                                height: 340.h,
+                                height: 480.h,
                                 child: Scrollbar(
                                   child: SingleChildScrollView(
                                       physics: MediaQuery.of(context)
@@ -140,8 +160,8 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
                                               0
                                           ? null
                                           : const NeverScrollableScrollPhysics(),
-                                      child:
-                                          listCurrentCarParkingBuilder(query)),
+                                      child: listCurrentCarParkingBuilder(query,
+                                          widget.locationParking.documentID!)),
                                 ),
                               ),
                               gaph(h: 25)
@@ -213,98 +233,46 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
     );
   }
 
-  AppBar appBarDesignOfficerHome(BuildContext context) {
+  AppBar locationSelectionAppbarDesign() {
     return AppBar(
-      toolbarHeight: Platform.isAndroid
-          ? 190 - MediaQuery.of(context).padding.top
-          : 172 - MediaQuery.of(context).padding.top,
-      // leading: Align(
-      //   alignment: Alignment.topLeft,
-      //   child: Builder(
-      //     builder: (context) => IconButton(
-      //       iconSize: 35,
-      //       icon: Icon(
-      //         Icons.menu,
-      //         color: Color(0xff17B95B),
-      //       ),
-      //       tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      //       splashRadius: 25,
-      //       onPressed: () {
-      //         print('clicked');
-      //         return Scaffold.of(context).openDrawer();
-      //       },
-      //     ),
-      //   ),
-      // ),
-      actions: [
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-            onPressed: () async {
-              await _auth.signOut();
-            },
-            icon: Icon(
-              Icons.power_settings_new,
-              color: Color(0xff17B95B),
-            ),
-            iconSize: 35,
-            splashRadius: 25,
-          ),
-        )
-      ],
-      backgroundColor: Colors.transparent,
-      flexibleSpace: Stack(
-        alignment: Alignment.topCenter,
-        fit: StackFit.expand,
-        children: [
-          Image(
-            image: AssetImage('assets/icons/header.png'),
-            fit: BoxFit.fitHeight,
-          ),
-          Container(
-            height: double.infinity,
-            //color: Colors.blueGrey,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'assets/icons/officerIcon.png',
-                      height: 26,
-                    ),
-                    gapw(w: 5),
-                    Text(
-                      'Hi, ${name}',
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 22,
-                        color: const Color(0xff707070),
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-                Image.asset(
-                  'assets/icons/mpsp-sungaiPetani.png',
-                  width: 99,
-                )
-              ],
-            ),
-          ),
-        ],
+      title: Text(
+        'Compound',
+        style: TextStyle(
+          fontFamily: 'Roboto',
+          fontSize: 22.sp,
+          color: const Color(0xff707070),
+          fontWeight: FontWeight.w700,
+        ),
+        textAlign: TextAlign.left,
       ),
+      leading: Builder(
+        builder: (context) => IconButton(
+          iconSize: 35.w,
+          icon: Icon(
+            Icons.chevron_left,
+            color: Color(0xff17B95B),
+          ),
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          splashRadius: 25,
+          onPressed: () {
+            return Navigator.of(context).pop();
+          },
+        ),
+      ),
+      actions: [],
+      flexibleSpace: Image(
+        image: AssetImage('assets/icons/header.png'),
+        fit: BoxFit.fitWidth,
+      ),
+      elevation: 1,
     );
   }
 
-  Widget listCurrentCarParkingBuilder(String query) {
+  Widget listCurrentCarParkingBuilder(String query, String locationId) {
     //print(query);
     //if (query.isNotEmpty) {
     return StreamBuilder<List<Car>>(
-      stream: FirestoreDb().streamCurrentParkingCar(),
+      stream: FirestoreDb().streamCurrentParkingCarByLocationId(locationId),
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           List<Car> carList = snapshot.data;
@@ -414,46 +382,5 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
     //     ),
     //   );
     // }
-  }
-
-  Column menuDesign(String title, String imagePath, String navigationPath) {
-    return Column(
-      children: [
-        InkWell(
-          borderRadius: BorderRadius.circular(70),
-          splashColor: Colors.green,
-          child: Container(
-            alignment: Alignment.center,
-            height: 150.h,
-            width: 150.w,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xffCBF0C1),
-                boxShadow: [
-                  BoxShadow(color: Colors.grey, blurRadius: 6),
-                ]),
-            child: Image.asset(
-              imagePath,
-            ),
-          ),
-          onTap: () {
-            print(title);
-            Navigator.of(context).pushNamed(navigationPath);
-          },
-        ),
-        SizedBox(
-          height: 12.h,
-        ),
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontSize: 20.sp,
-            color: const Color(0xff000000),
-          ),
-          textAlign: TextAlign.left,
-        )
-      ],
-    );
   }
 }

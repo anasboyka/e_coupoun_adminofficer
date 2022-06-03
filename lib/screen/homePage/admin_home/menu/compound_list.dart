@@ -116,61 +116,61 @@ class _CompoundListState extends State<CompoundList> {
                           ),
                           // SizedBox(height: 25.h),
                           Expanded(child: listCompoundBuilder(query)),
-                          SizedBox(height: 30.h)
+                          gaph(h: 30)
                         ],
                       ),
                     ),
                   ),
                 ),
                 gaph(),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0, 1),
-                          blurRadius: 1,
-                        )
-                      ]),
-                  child: Material(
-                    clipBehavior: Clip.hardEdge,
-                    color: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                      leading: Icon(
-                        Icons.add,
-                        size: 35.w,
-                        color: Color(0xff17B95B),
-                      ),
-                      horizontalTitleGap: 4.w,
-                      title: Text(
-                        'Register New Location',
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 16.sp,
-                          color: const Color(0xff000000),
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      onTap: () async {
-                        // Navigator.of(context).pushNamed('/registerinputcar', arguments: {
-                        //   "appbarTitle": "Register New Car",
-                        //   "driverInfo": widget.driverInfo
-                        // });
-                        print('tap');
-                      },
-                    ),
-                  ),
-                ),
-                gaph()
+                // Container(
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(10.r),
+                //       color: Colors.white,
+                //       boxShadow: const [
+                //         BoxShadow(
+                //           color: Colors.grey,
+                //           offset: Offset(0, 1),
+                //           blurRadius: 1,
+                //         )
+                //       ]),
+                //   child: Material(
+                //     clipBehavior: Clip.hardEdge,
+                //     color: Colors.transparent,
+                //     shadowColor: Colors.transparent,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(10.r),
+                //     ),
+                //     child: ListTile(
+                //       contentPadding:
+                //           EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                //       leading: Icon(
+                //         Icons.add,
+                //         size: 35.w,
+                //         color: Color(0xff17B95B),
+                //       ),
+                //       horizontalTitleGap: 4.w,
+                //       title: Text(
+                //         'Register New Location',
+                //         style: TextStyle(
+                //           fontFamily: 'Roboto',
+                //           fontSize: 16.sp,
+                //           color: const Color(0xff000000),
+                //           fontWeight: FontWeight.w700,
+                //         ),
+                //         textAlign: TextAlign.left,
+                //       ),
+                //       onTap: () async {
+                //         // Navigator.of(context).pushNamed('/registerinputcar', arguments: {
+                //         //   "appbarTitle": "Register New Car",
+                //         //   "driverInfo": widget.driverInfo
+                //         // });
+                //         print('tap');
+                //       },
+                //     ),
+                //   ),
+                // ),
+                // gaph()
               ],
             ),
           ),
@@ -185,21 +185,21 @@ class _CompoundListState extends State<CompoundList> {
       stream: FirestoreDb().compounds,
       builder: (_, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          List<Compound> locationCompounds = snapshot.data;
+          List<Compound> compoundList = snapshot.data;
           if (query.isNotEmpty) {
             List<Compound> locationCompoundsTemp = [];
-            for (var i = 0; i < locationCompounds.length; i++) {
-              if (locationCompounds[i]
+            for (var i = 0; i < compoundList.length; i++) {
+              if (compoundList[i]
                   .locationName
                   .toLowerCase()
                   .startsWith(query.toLowerCase())) {
-                locationCompoundsTemp.add(locationCompounds[i]);
+                locationCompoundsTemp.add(compoundList[i]);
               }
             }
-            locationCompounds = locationCompoundsTemp;
+            compoundList = locationCompoundsTemp;
           }
 
-          if (locationCompounds.isNotEmpty) {
+          if (compoundList.isNotEmpty) {
             return Scrollbar(
               child: ListView.separated(
                 physics: MediaQuery.of(context).viewInsets.bottom == 0
@@ -208,8 +208,13 @@ class _CompoundListState extends State<CompoundList> {
                 itemBuilder: (context, index) {
                   //print(locationParkings.length);
                   return ListTile(
+                    onTap: () {
+                      //Todo navigate to compound detail
+                      Navigator.of(context).pushNamed('/admincompounddetail',
+                          arguments: compoundList[index]);
+                    },
                     title: Text(
-                      locationCompounds[index].invoiceNum, //?? '',
+                      compoundList[index].invoiceNum, //?? '',
                       style: const TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: 18,
@@ -233,7 +238,7 @@ class _CompoundListState extends State<CompoundList> {
                         //   textAlign: TextAlign.left,
                         // ),
                         Text(
-                          '${locationCompounds[index].carBrand.toUpperCase()}(${locationCompounds[index].carId.toUpperCase()})', //?? '',
+                          '${compoundList[index].carBrand.toUpperCase()}(${compoundList[index].carId.toUpperCase()})', //?? '',
                           style: const TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 15,
@@ -246,27 +251,27 @@ class _CompoundListState extends State<CompoundList> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(
-                          width: 30.w,
-                          height: 30.h,
-                          child: Material(
-                            shape: const CircleBorder(),
-                            child: IconButton(
-                              highlightColor: Colors.transparent,
-                              padding: const EdgeInsets.all(0),
-                              iconSize: 30.w,
-                              onPressed: () {
-                                //todo
-                              },
-                              icon: Icon(
-                                Icons.edit,
-                                color: Color(0xff17B95B),
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 6.w),
+                        // SizedBox(
+                        //   width: 30.w,
+                        //   height: 30.h,
+                        //   child: Material(
+                        //     shape: const CircleBorder(),
+                        //     child: IconButton(
+                        //       highlightColor: Colors.transparent,
+                        //       padding: const EdgeInsets.all(0),
+                        //       iconSize: 30.w,
+                        //       onPressed: () {
+                        //         //todo
+                        //       },
+                        //       icon: Icon(
+                        //         Icons.edit,
+                        //         color: Color(0xff17B95B),
+                        //         size: 30,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(width: 6.w),
                         SizedBox(
                           width: 30.w,
                           height: 30.h,
@@ -277,9 +282,9 @@ class _CompoundListState extends State<CompoundList> {
                               iconSize: 30.w,
                               onPressed: () {
                                 //TOdo
-                                print(locationCompounds[index].documentID!);
-                                createAlertDialog(context,
-                                    locationCompounds[index].documentID!);
+                                print(compoundList[index].documentID!);
+                                createAlertDialog(
+                                    context, compoundList[index].documentID!);
                               },
                               icon: Icon(
                                 Icons.delete,
@@ -296,11 +301,6 @@ class _CompoundListState extends State<CompoundList> {
                     dense: true,
                     //horizontalTitleGap: 0,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                    onTap: () {
-                      //Todo
-                      // Navigator.of(context)
-                      //     .pop({'locationParking': locationParkings[index]});
-                    },
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -315,7 +315,7 @@ class _CompoundListState extends State<CompoundList> {
                     ),
                   );
                 },
-                itemCount: locationCompounds.length,
+                itemCount: compoundList.length,
                 shrinkWrap: true,
               ),
             );

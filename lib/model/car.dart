@@ -8,6 +8,7 @@ class Car {
   final String carType;
   final String carPlateNum;
   final bool parkingStatus;
+  final String? locationId;
   final DocumentSnapshot? snapshot;
   final DocumentReference? reference;
   final String? documentID;
@@ -18,13 +19,13 @@ class Car {
     required this.carType,
     required this.carPlateNum,
     required this.parkingStatus,
+    this.locationId,
     this.snapshot,
     this.reference,
     this.documentID,
   });
 
   factory Car.fromFirestore(DocumentSnapshot snapshot) {
-    // if (snapshot == null) return null;
     dynamic map = snapshot.data()!;
 
     return Car(
@@ -32,6 +33,7 @@ class Car {
       carType: map['carType'],
       carPlateNum: map['carPlateNum'],
       parkingStatus: map['parkingStatus'],
+      locationId: map['locationId'],
       snapshot: snapshot,
       reference: snapshot.reference,
       documentID: snapshot.id,
@@ -54,15 +56,18 @@ class Car {
         'carBrand': carBrand,
         'carType': carType,
         'carPlateNum': carPlateNum,
-        'parkingStatus': parkingStatus
+        'parkingStatus': parkingStatus,
+        'locationId': locationId,
       };
 
   factory Car.fromMap(Map<String, dynamic> map) {
     return Car(
-        carBrand: map['carBrand'] ?? '',
-        carType: map['carType'] ?? '',
-        carPlateNum: map['carPlateNum'] ?? '',
-        parkingStatus: map['parkingStatus'] ?? '');
+      carBrand: map['carBrand'] ?? '',
+      carType: map['carType'] ?? '',
+      carPlateNum: map['carPlateNum'] ?? '',
+      parkingStatus: map['parkingStatus'] ?? '',
+      locationId: map['locationId'] ?? '',
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -71,7 +76,7 @@ class Car {
 
   @override
   String toString() =>
-      'Car(carBrand: $carBrand, carType: $carType, carPlateNum: $carPlateNum)';
+      'Car(carBrand: $carBrand, carType: $carType, carPlateNum: $carPlateNum , locationId: $locationId)';
 
   @override
   bool operator ==(Object other) {

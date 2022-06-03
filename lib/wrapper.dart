@@ -11,7 +11,9 @@ import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/driver_list.dart
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/location_list.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/officer_list.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/parking_list.dart';
-import 'package:e_coupoun_admin/screen/homePage/officer_home/subpage/officer_home_screen.dart';
+import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/subcompound/compound_detail.dart';
+import 'package:e_coupoun_admin/screen/homePage/officer_home/officer_home_screen.dart';
+import 'package:e_coupoun_admin/screen/homePage/officer_home/subpage/location_view_officer_page.dart';
 import 'package:e_coupoun_admin/services/firebase_firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +24,6 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final useruid = Provider.of<AuthId?>(context);
-    final bool isAdmin = Provider.of<Account>(context).isAdmin;
 
     if (useruid == null) {
       return const AuthenticationPage();
@@ -34,10 +35,9 @@ class Wrapper extends StatelessWidget {
             bool isAdmin = snapshot.data;
             if (!isAdmin) {
               return StreamProvider<Officer?>(
-                initialData: null,
-                create: (context) => FirestoreDb(uid: useruid.uid).officer,
-                child: OfficerHomeScreen(),
-              );
+                  initialData: null,
+                  create: (context) => FirestoreDb(uid: useruid.uid).officer,
+                  child: OfficerHomeScreen());
             } else {
               return StreamProvider<Admin?>(
                 initialData: null,

@@ -21,10 +21,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<Account>(
-          create: (context) => Account(),
-          lazy: false,
-        ),
         StreamProvider<AuthId?>.value(
             catchError: (_, __) => null,
             value: AuthService().user,

@@ -116,9 +116,6 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                                 const SnackBar(
                                     content: Text('No Admin found')));
                             setState(() => loading = false);
-                          } else {
-                            Provider.of<Account>(context, listen: false)
-                                .setAdmin(true);
                           }
 
                           //Navigator.of(context).pushReplacementNamed('/home');
