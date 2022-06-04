@@ -16,6 +16,27 @@ class AuthService {
         .map((event) => _userFromFirebaseUser(event));
   }
 
+  Future registerOfficerWithEmailAndPaswordFunc(Officer officer) async {
+    try {
+      dynamic result = await FirestoreDb().addOfficerDataCollection(officer);
+      // UserCredential credential = await _auth.createUserWithEmailAndPassword(
+      //     email: officer.email, password: officer.password);
+      // User? user = credential.user;
+
+      return result;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return 'passwordweak';
+      } else if (e.code == 'email-already-in-use') {
+        return 'emailUsed';
+      }
+      return null;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future registerOfficerWithEmailAndPasword(Officer officer) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(

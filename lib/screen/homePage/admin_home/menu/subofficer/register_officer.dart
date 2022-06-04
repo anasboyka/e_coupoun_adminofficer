@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_coupoun_admin/constant.dart';
 import 'package:e_coupoun_admin/model/officer.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
@@ -137,14 +138,20 @@ class _RegisterOfficerState extends State<RegisterOfficer> {
                             password: icNum,
                           );
                           dynamic result = await _auth
-                              .registerOfficerWithEmailAndPasword(officer);
+                              .registerOfficerWithEmailAndPaswordFunc(officer);
 
-                          if (result is User) {
-                            await FirestoreDb(uid: result.uid)
-                                .updateOfficerDataCollection(officer);
-                          } else {
+                          // if (result is User) {
+                          //   await FirestoreDb(uid: result.uid)
+                          //       .updateOfficerDataCollection(officer);
+                          // } else
+                          if (result is String) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(result.toString())));
+                          } else if (result is DocumentReference) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("register successful")));
+                            Navigator.of(context).pop();
                           }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

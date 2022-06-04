@@ -36,14 +36,15 @@ class Wrapper extends StatelessWidget {
             bool isAdmin = snapshot.data;
             if (!isAdmin) {
               return StreamProvider<Officer?>(
-                  initialData: null,
-                  create: (context) => FirestoreDb(uid: useruid.uid).officer,
-                  child: OfficerHomeScreen());
+                initialData: null,
+                create: (context) => FirestoreDb(uid: useruid.uid).officer,
+                child: OfficerHomeScreen(),
+              );
             } else {
               return StreamProvider<Admin?>(
                 initialData: null,
                 create: (context) => FirestoreDb(uid: useruid.uid).admin,
-                child: RegisterOfficer(),
+                child: AdminHomeScreen(),
               );
             }
           } else {

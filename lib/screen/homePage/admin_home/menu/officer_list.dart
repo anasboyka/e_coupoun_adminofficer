@@ -183,10 +183,8 @@ class _OfficerListState extends State<OfficerList> {
                                 textAlign: TextAlign.left,
                               ),
                               onTap: () async {
-                                // Navigator.of(context).pushNamed('/registerinputcar', arguments: {
-                                //   "appbarTitle": "Register New Car",
-                                //   "driverInfo": widget.driverInfo
-                                // });
+                                Navigator.of(context)
+                                    .pushNamed('/adminregisterofficer');
                                 print('tap');
                               },
                             ),
