@@ -16,13 +16,12 @@ class AuthService {
         .map((event) => _userFromFirebaseUser(event));
   }
 
-  Future registerOfficerWithEmailAndPasword(
-      {required String password, required Officer officer}) async {
+  Future registerOfficerWithEmailAndPasword(Officer officer) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
-          email: officer.email, password: password);
+          email: officer.email, password: officer.password);
       User? user = credential.user;
-      return user?.uid;
+      return user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return 'passwordweak';

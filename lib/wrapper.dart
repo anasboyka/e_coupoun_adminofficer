@@ -12,6 +12,7 @@ import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/location_list.da
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/officer_list.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/parking_list.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/subcompound/compound_detail.dart';
+import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/subofficer/register_officer.dart';
 import 'package:e_coupoun_admin/screen/homePage/officer_home/officer_home_screen.dart';
 import 'package:e_coupoun_admin/screen/homePage/officer_home/subpage/location_view_officer_page.dart';
 import 'package:e_coupoun_admin/services/firebase_firestore/firestore_service.dart';
@@ -42,7 +43,7 @@ class Wrapper extends StatelessWidget {
               return StreamProvider<Admin?>(
                 initialData: null,
                 create: (context) => FirestoreDb(uid: useruid.uid).admin,
-                child: AdminHomeScreen(),
+                child: RegisterOfficer(),
               );
             }
           } else {

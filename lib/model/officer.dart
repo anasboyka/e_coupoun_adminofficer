@@ -1,23 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Officer {
-  final String? uid;
+  final String? officerId;
   final String name;
-  final int age;
+  //final int age;
   final String phoneNum;
   final String icNum;
   final String email;
+  final String password;
   final DocumentSnapshot? snapshot;
   final DocumentReference? reference;
   final String? documentID;
 
   Officer({
     required this.name,
-    required this.age,
+    //required this.age,
     required this.phoneNum,
     required this.icNum,
     required this.email,
-    this.uid,
+    required this.password,
+    this.officerId,
     this.snapshot,
     this.reference,
     this.documentID,
@@ -29,10 +31,11 @@ class Officer {
 
     return Officer(
       name: map['name'],
-      age: map['age'],
+      //age: map['age'],
       phoneNum: map['phoneNum'],
       icNum: map['icNum'],
       email: map['email'],
+      password: map['password'],
       snapshot: snapshot,
       reference: snapshot.reference,
       documentID: snapshot.id,
@@ -43,19 +46,22 @@ class Officer {
     //if (map == null) return null;
 
     return Officer(
-        name: map['name'],
-        age: map['age'],
-        phoneNum: map['phoneNum'],
-        icNum: map['icNum'],
-        email: map['email']);
+      name: map['name'],
+      //age: map['age'],
+      phoneNum: map['phoneNum'],
+      icNum: map['icNum'],
+      email: map['email'],
+      password: map['password'],
+    );
   }
 
   Map<String, dynamic> toMap() => {
         'name': name,
-        'age': age,
+        //'age': age,
         'phoneNum': phoneNum,
         'icNum': icNum,
         'email': email,
+        'password': password,
       };
 
   Officer copyWith({
@@ -66,12 +72,18 @@ class Officer {
     required String email,
   }) {
     return Officer(
-        name: name, age: age, phoneNum: phoneNum, icNum: icNum, email: email);
+      name: name,
+      //age: age,
+      phoneNum: phoneNum,
+      icNum: icNum,
+      email: email,
+      password: password,
+    );
   }
 
   @override
   String toString() {
-    return '${name.toString()}, ${age.toString()}, ${phoneNum.toString()}, ${icNum.toString()}, ';
+    return '${name.toString()}, {age.toString()}, ${phoneNum.toString()}, ${icNum.toString()}, ';
   }
 
   @override

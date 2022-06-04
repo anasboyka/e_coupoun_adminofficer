@@ -56,6 +56,10 @@ class FirestoreDb {
     return await officerCollection.doc(uid).set(officer.toMap());
   }
 
+  Future addOfficerDataCollection(Officer officer) async {
+    return await officerCollection.add(officer.toMap());
+  }
+
   Future<bool> accountIsOfficer(String email) async {
     var ref = await officerCollection
         .where('email', isEqualTo: email)
