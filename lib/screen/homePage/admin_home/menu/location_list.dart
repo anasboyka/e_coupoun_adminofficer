@@ -229,11 +229,6 @@ class _LocationListState extends State<LocationList> {
                     dense: true,
                     //horizontalTitleGap: 0,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                    onTap: () {
-                      //Todo
-                      // Navigator.of(context)
-                      //     .pop({'locationParking': locationParkings[index]});
-                    },
                   );
                 },
                 separatorBuilder: (context, index) {
