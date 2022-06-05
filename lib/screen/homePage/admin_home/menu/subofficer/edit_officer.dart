@@ -16,18 +16,13 @@ class _EditOfficerState extends State<EditOfficer> with InputValidationMixin {
   List<bool> enabled = List.filled(5, false);
 
   late Officer officerInfo;
-  String name = 'name', icNum = 'icNum', phoneNum = '01234567';
+  // String name = 'name', icNum = 'icNum', phoneNum = '01234567';
 
-  // TextEditingController usernamecon = TextEditingController();
   TextEditingController namecon = TextEditingController();
   TextEditingController icNumcon = TextEditingController();
-  // TextEditingController dateOfBirthcon = TextEditingController();
+
   TextEditingController phoneNumcon = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  // FocusNode nodeusername = FocusNode();
-  // FocusNode nodename = FocusNode();
-  // FocusNode nodeicnum = FocusNode();
-  // FocusNode nodedateofbirth = FocusNode();
 
   List<FocusNode> node = List.filled(4, new FocusNode());
 

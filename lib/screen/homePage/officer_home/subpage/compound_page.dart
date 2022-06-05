@@ -361,7 +361,7 @@ class _CompoundPageState extends State<CompoundPage> with InputValidationMixin {
   AppBar compoundAppbarDesign() {
     return AppBar(
       title: Text(
-        'Compound',
+        'Compound Page',
         style: TextStyle(
           fontFamily: 'Roboto',
           fontSize: 22.sp,

@@ -116,8 +116,10 @@ class _DriverListState extends State<DriverList> {
                                                       padding:
                                                           EdgeInsets.all(0),
                                                       iconSize: 30.w,
-                                                      onPressed: () {
+                                                      onPressed: () async {
                                                         //Todo
+                                                        await FirestoreDb()
+                                                            .deleteDriver(e);
                                                         // print(locationCompounds[index].documentID!);
                                                         // createAlertDialog(context,
                                                         //     locationCompounds[index].documentID!);

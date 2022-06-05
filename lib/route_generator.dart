@@ -8,6 +8,7 @@ import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/location_list.da
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/officer_list.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/parking_list.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/subcompound/compound_detail.dart';
+import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/sublocation/register_location.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/subofficer/edit_officer.dart';
 import 'package:e_coupoun_admin/screen/homePage/admin_home/menu/subofficer/register_officer.dart';
 import 'package:e_coupoun_admin/screen/homePage/officer_home/officer_home_screen.dart';
@@ -62,7 +63,8 @@ class RouteGenerator {
                 ));
       case '/adminregisterofficer':
         return CupertinoPageRoute(builder: (_) => RegisterOfficer());
-
+      case '/adminregisterlocation':
+        return CupertinoPageRoute(builder: (_) => RegisterLocation());
       case '/admindriverlist':
         return CupertinoPageRoute(builder: (_) => DriverList());
       default:

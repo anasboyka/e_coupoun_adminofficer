@@ -144,6 +144,10 @@ class FirestoreDb {
         .then((data) => Driver.fromFirestore(data));
   }
 
+  Future deleteDriver(Driver driver) async {
+    return await driverCollection.doc(driver.documentID).delete();
+  }
+
   //driver closed
 
   //Car open

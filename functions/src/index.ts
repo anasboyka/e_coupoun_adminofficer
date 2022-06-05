@@ -3,3 +3,4 @@ admin.initializeApp();
 
 export * from "./modules/onCreateUser";
 export * from "./modules/onDeleteUser";
+export * from "./modules/onDeleteDriver";

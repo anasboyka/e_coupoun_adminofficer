@@ -160,11 +160,9 @@ class _LocationListState extends State<LocationList> {
                         textAlign: TextAlign.left,
                       ),
                       onTap: () async {
-                        // Navigator.of(context).pushNamed('/registerinputcar', arguments: {
-                        //   "appbarTitle": "Register New Car",
-                        //   "driverInfo": widget.driverInfo
-                        // });
-                        print('tap');
+                        Navigator.of(context)
+                            .pushNamed('/adminregisterlocation');
+                        //print('tap');
                       },
                     ),
                   ),
