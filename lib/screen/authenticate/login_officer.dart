@@ -112,6 +112,12 @@ class _LoginPageOfficerState extends State<LoginPageOfficer> {
                                   loginEmailcon.text, loginpasscon.text);
 
                           //setState(() => loading = false);
+                          print(result);
+                          if (result is String) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(content: Text(result)));
+                            setState(() => loading = false);
+                          }
                           if (result == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('No User found')));

@@ -53,7 +53,9 @@ class FirestoreDb {
   }
 
   Future updateOfficerDataCollection(Officer officer) async {
-    return await officerCollection.doc(uid).set(officer.toMap());
+    return await officerCollection
+        .doc(officer.documentID)
+        .update(officer.toMap());
   }
 
   Future addOfficerDataCollection(Officer officer) async {
@@ -70,6 +72,10 @@ class FirestoreDb {
     } else {
       return false;
     }
+  }
+
+  Future deleteOfficer(Officer officer) async {
+    return await officerCollection.doc(officer.documentID).delete();
   }
   //officer closed
 

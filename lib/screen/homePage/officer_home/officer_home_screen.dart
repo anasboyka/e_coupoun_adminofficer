@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:e_coupoun_admin/constant.dart';
 import 'package:e_coupoun_admin/model/account.dart';
+import 'package:e_coupoun_admin/model/auth_id.dart';
 import 'package:e_coupoun_admin/model/car.dart';
 import 'package:e_coupoun_admin/model/location_parking.dart';
+import 'package:e_coupoun_admin/model/officer.dart';
 import 'package:e_coupoun_admin/services/firebase_authentication/auth.dart';
 import 'package:e_coupoun_admin/services/firebase_firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
@@ -22,17 +24,19 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
   TextEditingController searchcon = TextEditingController();
   ScrollController _controllerbar = ScrollController();
 
-  String name = "Fatin Fariza";
+  //String name = "Fatin Fariza";
   String query = '';
 
   @override
   Widget build(BuildContext context) {
+    final useruid = Provider.of<AuthId?>(context);
+    print(useruid!.uid);
     return Scaffold(
       backgroundColor: kbgColor,
-      appBar: appBarDesignOfficerHome(context),
+      appBar: appBarDesignOfficerHome(context, useruid.uid),
       body: SizedBox(
         height: MediaQuery.of(context).size.height -
-            appBarDesignOfficerHome(context).preferredSize.height -
+            appBarDesignOfficerHome(context, useruid.uid).preferredSize.height -
             MediaQuery.of(context).padding.top,
         width: double.infinity,
         child: Column(
@@ -166,7 +170,7 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
     );
   }
 
-  AppBar appBarDesignOfficerHome(BuildContext context) {
+  AppBar appBarDesignOfficerHome(BuildContext context, String officeruid) {
     return AppBar(
       toolbarHeight: Platform.isAndroid
           ? 190 - MediaQuery.of(context).padding.top
@@ -210,11 +214,11 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
         alignment: Alignment.topCenter,
         fit: StackFit.expand,
         children: [
-          Image(
+          const Image(
             image: AssetImage('assets/icons/header.png'),
             fit: BoxFit.fitHeight,
           ),
-          Container(
+          SizedBox(
             height: double.infinity,
             //color: Colors.blueGrey,
             child: Row(
@@ -229,16 +233,34 @@ class _OfficerHomeScreenState extends State<OfficerHomeScreen> {
                       height: 26,
                     ),
                     gapw(w: 5),
-                    Text(
-                      'Hi, ${name}',
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 22,
-                        color: const Color(0xff707070),
-                        fontWeight: FontWeight.w700,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+                    StreamBuilder(
+                        stream: FirestoreDb(uid: officeruid).officer,
+                        builder: (_, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            Officer officer = snapshot.data;
+                            return Text(
+                              'Hi, ${officer.name}',
+                              style: const TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 22,
+                                color: const Color(0xff707070),
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          } else {
+                            return const Text(
+                              'Hi, ....',
+                              style: TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 22,
+                                color: Color(0xff707070),
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.center,
+                            );
+                          }
+                        }),
                   ],
                 ),
                 Image.asset(

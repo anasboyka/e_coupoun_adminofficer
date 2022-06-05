@@ -6,7 +6,7 @@ import * as admin from "firebase-admin";
 export const onCreateUser = functions.firestore.document("officers/{userID}").
 	onCreate(async (snapshot) => {
 		console.log(snapshot.id);
-		if (!snapshot.data()!.email || !snapshot.data()!.password) {
+		if (!snapshot.data()!.email || !snapshot.data()!.icNum) {
 			console.log("Error");
 		} else {
 			const data = snapshot.data();
@@ -15,7 +15,7 @@ export const onCreateUser = functions.firestore.document("officers/{userID}").
 			// const phoneNum = data!.phoneNum;
 			// const icNum = data!.icNum;
 			const email = data!.email;
-			const password = data!.email;
+			const password = data!.icNum;
 
 			const fbUser = await admin.auth().createUser({email: email, password: password, uid: snapshot.id});
 			console.log(fbUser.uid);

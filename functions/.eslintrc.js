@@ -31,6 +31,6 @@ module.exports = {
 		"quotes": ["error", "double"],
 		"import/no-unresolved": 0,
 		"eol-last": 0,
-		"no-multiple-empty-lines": ["error", {"max": 1, "maxEOF": 0}],
+		"no-multiple-empty-lines": ["error", {"max": 9999, "maxEOF": 0}],
 	},
 };

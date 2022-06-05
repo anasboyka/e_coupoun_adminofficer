@@ -7,7 +7,7 @@ class Officer {
   final String phoneNum;
   final String icNum;
   final String email;
-  final String password;
+  final String? password;
   final DocumentSnapshot? snapshot;
   final DocumentReference? reference;
   final String? documentID;
@@ -18,7 +18,7 @@ class Officer {
     required this.phoneNum,
     required this.icNum,
     required this.email,
-    required this.password,
+    this.password,
     this.officerId,
     this.snapshot,
     this.reference,
@@ -31,11 +31,12 @@ class Officer {
 
     return Officer(
       name: map['name'],
+      officerId: map['officerId'],
       //age: map['age'],
       phoneNum: map['phoneNum'],
       icNum: map['icNum'],
       email: map['email'],
-      password: map['password'],
+      //password: map['password'],
       snapshot: snapshot,
       reference: snapshot.reference,
       documentID: snapshot.id,
@@ -47,25 +48,28 @@ class Officer {
 
     return Officer(
       name: map['name'],
+      officerId: map['officerId'],
       //age: map['age'],
       phoneNum: map['phoneNum'],
       icNum: map['icNum'],
       email: map['email'],
-      password: map['password'],
+      //password: map['password'],
     );
   }
 
   Map<String, dynamic> toMap() => {
         'name': name,
+        'officerId': officerId,
         //'age': age,
         'phoneNum': phoneNum,
         'icNum': icNum,
         'email': email,
-        'password': password,
+        //'password': password,
       };
 
   Officer copyWith({
     required String name,
+    required String officerId,
     required int age,
     required String phoneNum,
     required String icNum,
@@ -73,6 +77,7 @@ class Officer {
   }) {
     return Officer(
       name: name,
+      officerId: officerId,
       //age: age,
       phoneNum: phoneNum,
       icNum: icNum,
@@ -83,7 +88,7 @@ class Officer {
 
   @override
   String toString() {
-    return '${name.toString()}, {age.toString()}, ${phoneNum.toString()}, ${icNum.toString()}, ';
+    return '${name.toString()}, {age.toString()}, ${phoneNum.toString()}, ${icNum.toString()}, ${officerId.toString()}';
   }
 
   @override

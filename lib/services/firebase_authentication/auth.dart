@@ -40,7 +40,7 @@ class AuthService {
   Future registerOfficerWithEmailAndPasword(Officer officer) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
-          email: officer.email, password: officer.password);
+          email: officer.email, password: officer.password!);
       User? user = credential.user;
       return user;
     } on FirebaseAuthException catch (e) {

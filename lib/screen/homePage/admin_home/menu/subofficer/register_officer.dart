@@ -128,9 +128,12 @@ class _RegisterOfficerState extends State<RegisterOfficer> {
                             phoneNum.isNotEmpty &&
                             email.isNotEmpty &&
                             icNum.isNotEmpty) {
-                          String id = await nanoid(6);
+                          String longid = DateTime.now()
+                              .microsecondsSinceEpoch
+                              .toString(); //await nanoid(6);
+                          String shortid = longid.substring(longid.length - 6);
                           Officer officer = Officer(
-                            officerId: id,
+                            officerId: shortid,
                             name: fname,
                             phoneNum: phoneNum,
                             icNum: icNum,

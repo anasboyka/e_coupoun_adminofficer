@@ -95,6 +95,10 @@ class _OfficerListState extends State<OfficerList> {
                                                       iconSize: 30.w,
                                                       onPressed: () {
                                                         //todo
+                                                        Navigator.of(context)
+                                                            .pushNamed(
+                                                                '/admineditofficer',
+                                                                arguments: e);
                                                       },
                                                       icon: const Icon(
                                                         Icons.edit,
@@ -116,11 +120,15 @@ class _OfficerListState extends State<OfficerList> {
                                                           const EdgeInsets.all(
                                                               0),
                                                       iconSize: 30.w,
-                                                      onPressed: () {
+                                                      onPressed: () async {
                                                         //Todo
-                                                        // print(locationCompounds[index].documentID!);
-                                                        // createAlertDialog(context,
-                                                        //     locationCompounds[index].documentID!);
+                                                        createAlertDialog(
+                                                            context,
+                                                            'officer ${e.name} will be deleted',
+                                                            'Delete Officer?',
+                                                            e);
+                                                        // await FirestoreDb()
+                                                        //     .deleteOfficer(e);
                                                       },
                                                       icon: Icon(
                                                         Icons.delete,
@@ -302,6 +310,110 @@ class _OfficerListState extends State<OfficerList> {
   //     },
   //   );
   // }
+
+  createAlertDialog(
+      BuildContext context, String inputData, String title, Officer? officer) {
+    Size size = MediaQuery.of(context).size;
+
+    return showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 19,
+                color: const Color(0xff131450),
+              ),
+              textAlign: TextAlign.left,
+            ),
+            content: Text(
+              inputData,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 19,
+                color: const Color(0xff131450),
+              ),
+              textAlign: TextAlign.left,
+            ),
+            actions: [
+              InkWell(
+                child: Container(
+                  width: 74,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color(0xffF04437),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                      color: const Color(0xffffffff),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                onTap: () {
+                  //Navigator.of(context).pop("data from dialog");
+                  Navigator.of(context).pop();
+                },
+              ),
+              InkWell(
+                child: Container(
+                  width: 74,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color(0xff16AA32),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 16,
+                      color: const Color(0xffffffff),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                onTap: () async {
+                  await FirestoreDb().deleteOfficer(officer!);
+                  // if (title == 'Clear') {
+                  //   namecon.clear();
+                  //   phoneNumcon.clear();
+                  //   //usernamecon.clear();
+                  //   icNumcon.clear();
+                  //   // dateOfBirthcon.text = DateFormat('yyyy-MM-dd')
+                  //   //     .format(DateTime.parse("1111-11-11"));
+                  //   Navigator.of(context).pop();
+                  // } else if (title == 'Save') {
+
+                  // await FirestoreDb().updateOfficerDataCollection(officer);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('officer deleted')));
+                  //Navigator.of(context).popUntil((route) => route.isFirst);
+                  // } else {
+                  Navigator.of(context).pop();
+                  // }
+                },
+              ),
+            ],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(23),
+            ),
+            actionsPadding: EdgeInsets.fromLTRB(0, 43, 9, 15),
+            buttonPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            contentPadding: EdgeInsets.fromLTRB(27, 20, 15, 0),
+            insetPadding: EdgeInsets.fromLTRB(55, 0, 55, 0),
+            titlePadding: EdgeInsets.fromLTRB(27, 27, 27, 0),
+          );
+        });
+  }
 
   AppBar officerListAppbarDesign() {
     return AppBar(
